@@ -30,6 +30,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.nuxeo.common.utils.DurationUtils;
+import org.nuxeo.runtime.api.Framework;
 
 import com.google.api.MonitoredResource;
 
@@ -118,18 +119,28 @@ public class K8StackdriverReporter extends StackdriverReporter {
         String prefix = options.getOrDefault(PREFIX_OPTION, DEFAULT_PREFIX);
         Duration interval = Duration.fromMillis(getPollInterval() * 1000);
         
-        MonitoredResource resource =
-        	    MonitoredResource.newBuilder().setType("k8s_pod").putAllLabels(getLabelsAsMap(projectId)).build();
-
+        // k8s_pod vs k8s_container
+        String forceResourceType = Framework.getProperty("nuxeo.stackdriver.forceResourceType");
         
-        StackdriverStatsConfiguration configuration = StackdriverStatsConfiguration.builder()
-                                                                                   .setDeadline(timeout)
-                                                                                   .setProjectId(projectId)
-                                                                                   .setMetricNamePrefix(prefix)
-                                                                                   .setConstantLabels(getLabels(projectId))
-                                                                                   .setExportInterval(interval)
-                                                                                   .setMonitoredResource(resource)
-                                                                                   .build();
+        MonitoredResource resource=null;
+        if (forceResourceType!=null) {
+        	 resource =
+             	    MonitoredResource.newBuilder().setType(forceResourceType).putAllLabels(getLabelsAsMap(projectId)).build(); 	
+        }
+        
+        StackdriverStatsConfiguration.Builder builder = StackdriverStatsConfiguration.builder()
+                .setDeadline(timeout)
+                .setProjectId(projectId)
+                .setMetricNamePrefix(prefix)
+                .setConstantLabels(getLabels(projectId))
+                .setExportInterval(interval);
+        
+        if (resource!=null) {
+        	builder.setMonitoredResource(resource);            
+        }
+        
+        StackdriverStatsConfiguration configuration = builder.build();   
+        
         try {
             StackdriverStatsExporter.createAndRegister(configuration);
         } catch (IOException e) {
