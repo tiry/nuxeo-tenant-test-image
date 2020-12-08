@@ -5,7 +5,7 @@
   
   <extension target="org.nuxeo.runtime.metrics.MetricsService" point="reporter">
   
-    <reporter enabled="true" name="stackdriver" pollInterval="60"
+    <reporter enabled="true" name="stackdriver" pollInterval="10"
       class="org.nuxeo.runtime.metrics.reporter.K8StackdriverReporter">
       <option name="gcpProjectId">jx-preprod</option>
       <option name="cluster-name">multitenants</option>
