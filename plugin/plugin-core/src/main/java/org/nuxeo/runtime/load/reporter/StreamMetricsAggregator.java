@@ -14,7 +14,7 @@ public class StreamMetricsAggregator extends AbstractMetricsReporter {
 
 	protected static final MetricFilter STREAM_METRICS_FILTER = (name, metric) -> {
         String metricName = name.getKey();
-        if (metricName.startsWith("nuxeo.streams")) {
+        if (metricName.startsWith("nuxeo.stream")) {
             return true;
         } else if (metricName.startsWith("nuxeo.works")) {
             return true;
@@ -34,7 +34,7 @@ public class StreamMetricsAggregator extends AbstractMetricsReporter {
 	      
 		reporter = new LoadReporter(registry, "worker-load-reporter", STREAM_METRICS_FILTER);		
 	
-		registry.register(MetricRegistry.name("nuxeo", "worker", "load"), reporter.getGauge());
+		registry.register(MetricRegistry.name("nuxeo", "async", "load"), reporter.getGauge());
 	    		
 		reporter.start(getPollInterval(), TimeUnit.SECONDS);
 		reporter.report();

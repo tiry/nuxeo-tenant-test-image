@@ -1,5 +1,6 @@
 import java.util.List;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.ecm.core.api.DocumentLocation;
@@ -9,6 +10,7 @@ import org.nuxeo.ecm.core.work.SleepWork;
 import org.nuxeo.ecm.core.work.api.Work;
 import org.nuxeo.ecm.core.work.api.WorkManager;
 import org.nuxeo.ecm.core.work.api.WorkSchedulePath;
+import org.nuxeo.runtime.api.Framework;
 import org.nuxeo.runtime.stream.RuntimeStreamFeature;
 import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
@@ -18,11 +20,16 @@ import com.google.inject.Inject;
 
 @RunWith(FeaturesRunner.class)
 @Features({RuntimeStreamFeature.class, CoreFeature.class})
-@Deploy({"org.nuxeo.runtime.metrics", "org.nuxeo.test.plugin-core", "org.nuxeo.test.plugin-core:metrics-test-config.xml"})
+@Deploy({"org.nuxeo.runtime.metrics","org.nuxeo.test.plugin-core:streamworkmanager.xml", "org.nuxeo.ecm.core.management", "org.nuxeo.test.plugin-core", "org.nuxeo.test.plugin-core:metrics-test-config.xml"})
 public class TestMetrics {
 
 	@Inject
 	protected WorkManager wm;
+	
+	@BeforeClass
+	public static void  init() {
+		Framework.getProperties().setProperty("nuxeo.stream.work.enabled", "true");
+	}
 	
 	@Test
 	public void test() throws Exception {

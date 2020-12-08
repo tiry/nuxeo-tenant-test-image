@@ -8,4 +8,5 @@ Bundle-ManifestVersion: 2
 Bundle-SymbolicName: org.nuxeo.test.plugin-core;singleton=true
 Nuxeo-Component: OSGI-INF/login-screen-custo.xml,
  OSGI-INF/metrics-config.xml,
- OSGI-INF/metrics-config2.xml
+ OSGI-INF/metrics-config2.xml,
+ OSGI-INF/operation-contrib.xml

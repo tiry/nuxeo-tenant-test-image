@@ -64,8 +64,11 @@ public class LoadReporter extends ScheduledReporter {
 			int scheduled=0;
 			int running=0;
 			
+			long lag=0;
+			long latency=0;
+			
 		  	for (Map.Entry<MetricName, Gauge> entry : gauges.entrySet()) {
-		  		
+		  	 
 		  		if (entry.getKey().getKey().equals("nuxeo.works.global.queue.canceled") || entry.getKey().getKey().equals("nuxeo.works.global.queue.completed")) {		  		
 		  			Number v = (Number) entry.getValue().getValue();		
 		  			done += v.intValue();
@@ -77,21 +80,33 @@ public class LoadReporter extends ScheduledReporter {
 		  		else if (entry.getKey().getKey().equals("nuxeo.works.global.queue.scheduled") ) {		  		
 			  		Number v = (Number) entry.getValue().getValue();		
 			  		scheduled += v.intValue();
-		  		}		  		
-	        }
-	        for (Map.Entry<MetricName, Timer> entry : timers.entrySet()) {
-	            //System.out.println("T " +entry.getKey() + " --" +  entry.getValue());
-	        }
-	        for (Map.Entry<MetricName, Counter> entry : counters.entrySet()) {
-	            //System.out.println("C " +entry.getKey() + " --" +  entry.getValue());
-	        }
-	      
-	        double wload = computeWorkersLoad(done, scheduled, running);
-	        gauge.load=wload;
+		  		}
+		  		else if (entry.getKey().getKey().equals("nuxeo.streams.global.stream.group.lag") ) {		  		
+			  		Number v = (Number) entry.getValue().getValue();		
+			  		lag = Long.max(lag, v.longValue());
+		  		}
+		  		else if (entry.getKey().getKey().equals("nuxeo.streams.global.stream.group.latency") ) {		  		
+			  		Number v = (Number) entry.getValue().getValue();		
+			  		latency = Long.max(latency, v.longValue());
+		  		}		  				  		
+	        	     
+		  	}
+	        //double wload = computeWorkersLoad(done, scheduled, running);
+	        double sload = computeStreamLoad(lag, latency);
+	        
+	        System.out.println(" Computed load " + sload);
+	        
+	        gauge.load=sload;
 
 	    
 	}
 	
+	protected double computeStreamLoad(long lag, long latency) {		
+		
+		System.out.printf("\n lag: %s latency: %s ", lag, latency);		
+		return Double.max(lag/20.0, latency / (1000* 5*60.0));
+	}
+		
 	protected double computeWorkersLoad(int newDone, int newScheduled, int newRunning) {
 		
 		int deltaDone = newDone - this.done;

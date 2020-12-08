@@ -14,6 +14,7 @@
 <%@ page import="org.nuxeo.ecm.platform.web.common.admin.AdminStatusHelper"%>
 <%@ page import="org.nuxeo.common.Environment"%>
 <%@ page import="org.nuxeo.runtime.api.Framework"%>
+<%@ page import="org.nuxeo.login.LoginTenantHelper"%>
 <%@ page import="org.nuxeo.ecm.platform.ui.web.auth.service.LoginVideo" %>
 <%@ page import="org.nuxeo.ecm.platform.web.common.locale.LocaleProvider"%>
 
@@ -27,16 +28,7 @@ String tenantId = Framework.getProperty("nuxeo.tenantId", "Unknown");
 </div>
 
 <script>
-var text = '  <%=tenantId%> ';
-
-var tenantId = <%=tenantId.hashCode()%>;
-function intToRGB(i){
-    var c = (i & 0x00FFFFFF)
-        .toString(16)
-        .toUpperCase();
-    return "00000".substring(0, 6 - c.length) + c;
-}
-
+var text = "<%=tenantId%>";	
 var canvas = document.createElement("canvas");
 var fontSize = 32;
 canvas.setAttribute('height', 2*fontSize );
@@ -48,6 +40,6 @@ var body = document.getElementsByTagName("body")[0];
 body.style.backgroundImage="url(" + canvas.toDataURL("image/png")+ ")"
 body.style.backgroundSize="auto"
 body.style.backgroundRepeat="repeat"
-body.style.backgroundColor="#"+intToRGB(tenantId);
+body.style.backgroundColor="<%=LoginTenantHelper.getColor()%>";
 </script>
  
