@@ -26,6 +26,7 @@
   <modules>
     <module>k8s-hpa-metrics</module>
     <module>plugin-core</module>
+    <module>nuxeo-extended-session</module>
     <module>package</module>
   </modules>
 
@@ -46,6 +47,11 @@
       <dependency>
         <groupId>org.nuxeo.test</groupId>
         <artifactId>k8s-hpa-metrics</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.nuxeo.test</groupId>
+        <artifactId>nuxeo-extended-session</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
