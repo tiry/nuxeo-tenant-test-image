@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd plugin
+cd plugins
 
 mvn -o -DskipTests clean install
 
