@@ -60,16 +60,18 @@ Once the plugin is deployed you need to configure the Authentication chain to in
 
 Sample XML configuration:
    
-   <require>org.nuxeo.ecm.platform.ui.web.auth.defaultConfig</require>
-  
-   <extension target="org.nuxeo.ecm.platform.ui.web.auth.service.PluggableAuthenticationService" point="chain">
-    <authenticationChain>
+    ...   
+    <require>org.nuxeo.ecm.platform.ui.web.auth.defaultConfig</require>
+     
+    <extension target="org.nuxeo.ecm.platform.ui.web.auth.service.PluggableAuthenticationService" point="chain">
+     <authenticationChain>
       <plugins>
         <plugin>NUXEO_EXTENDED_SESSION</plugin>
         <plugin>BASIC_AUTH</plugin>
         <plugin>TOKEN_AUTH</plugin>
         <plugin>FORM_AUTH</plugin>
       </plugins>
-    </authenticationChain>
-   </extension>
-
+     </authenticationChain>
+    </extension>
+    ...
+    
