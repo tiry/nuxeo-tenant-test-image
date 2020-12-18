@@ -6,10 +6,10 @@ mvn -o -DskipTests clean install
 
 cd ..
 
-docker build  -t nuxeo-test/tenants -f Dockerfile .
+docker build  -t nuxeo-test/tenants -f Dockerfile$1 .
 
 IMAGEID=$(docker images -q nuxeo-test/tenants)
 
-docker tag $IMAGEID gcr.io/jx-preprod/nuxeo-mt
-docker push gcr.io/jx-preprod/nuxeo-mt
+docker tag $IMAGEID gcr.io/jx-preprod/nuxeo-mt$1
+docker push gcr.io/jx-preprod/nuxeo-mt$1
 

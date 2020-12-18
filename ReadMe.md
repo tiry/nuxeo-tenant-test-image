@@ -24,3 +24,14 @@ Marketplace package used to deploy everything in image
 
 Build a custom Docker image integrating the plugins and some additiona packages like GCP Store and WebUI.
 
+
+#### Usage
+
+Build standard Nuxeo image and upload to GCR
+
+    ./build.sh
+
+
+Build Nuxeo image with ARender + upload to GCR
+
+    ./build.sh -arender
