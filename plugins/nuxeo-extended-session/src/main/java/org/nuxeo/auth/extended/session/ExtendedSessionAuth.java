@@ -20,6 +20,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.platform.api.login.UserIdentificationInfo;
 import org.nuxeo.ecm.platform.ui.web.auth.interfaces.NuxeoAuthenticationPlugin;
 import org.nuxeo.runtime.api.Framework;
@@ -36,6 +38,8 @@ public class ExtendedSessionAuth implements NuxeoAuthenticationPlugin {
 
     private long ttl;
 
+	private static final Log log = LogFactory.getLog(ExtendedSessionAuth.class);
+
     @Override
     public List<String> getUnAuthenticatedURLPrefix() {
         return Collections.emptyList();
@@ -43,29 +47,34 @@ public class ExtendedSessionAuth implements NuxeoAuthenticationPlugin {
 
     @Override
     public Boolean handleLoginPrompt(HttpServletRequest request, HttpServletResponse response, String baseURL) {
-        return false;
+    	return false;
     }
 
     @Override
     public UserIdentificationInfo handleRetrieveIdentity(HttpServletRequest request, HttpServletResponse response) {
         String sid = SessionIdFilter.getSessionId();
         if (sid == null) {
+            log.debug("ExtendedSessionAuth NO sid provided");
             return null;
         }
+        log.debug("ExtendedSessionAuth with sid = " + sid);
         KeyValueService keyValueService = Framework.getService(KeyValueService.class);
         KeyValueStore sessionCache = keyValueService.getKeyValueStore(EX_SESSION_CACHE_NAME);
         String principalName = sessionCache.getString(sid);
         if (principalName != null) {
+            log.debug("ExtendedSessionAuth retrived user session from KV" );
             // refresh ttl
             sessionCache.put(sid, principalName, ttl);
             return new UserIdentificationInfo(principalName, principalName);
-        }
+        } 
+        log.debug("ExtendedSessionAuth no session found in KV!" );
         return null;
     }
 
     @Override
     public void initPlugin(Map<String, String> parameters) {
-        ttl = Long.parseLong(Framework.getProperty(EX_SESSION_CACHE_TTL, EX_SESSION_CACHE_DEFAULT_TTL));
+        log.debug("ExtendedSessionAuth Plugin initializing");
+    	ttl = Long.parseLong(Framework.getProperty(EX_SESSION_CACHE_TTL, EX_SESSION_CACHE_DEFAULT_TTL));
     }
 
     @Override
