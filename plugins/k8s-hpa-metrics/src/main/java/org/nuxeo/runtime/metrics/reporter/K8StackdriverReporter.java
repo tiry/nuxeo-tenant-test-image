@@ -58,6 +58,9 @@ public class K8StackdriverReporter extends StackdriverReporter {
     	if (options.containsKey(attribute)) {
     		value = options.get(attribute); 
     	}    	
+    	if (value == null) {
+			log.warn("Unable to find podInfo " + attribute);
+		}
     	return value;    	
     }
 

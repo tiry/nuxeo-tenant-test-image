@@ -41,7 +41,7 @@ public class K8SEnv {
 			podInfo = getPodInfoFromFS(attribute);
 		}
 		if (podInfo == null) {
-			log.warn("Unable to find podInfo " + attribute);
+			log.debug("Unable to find podInfo from env or FS" + attribute);
 		}
 		return podInfo;
 	}
