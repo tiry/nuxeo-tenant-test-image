@@ -6,7 +6,6 @@ Bundle-Version: 1.0.0
 Bundle-Name: nuxeo-extended-session
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: nuxeo.extended.session;singleton=true
-Nuxeo-Component: OSGI-INF/authentication-cache-config.xml,
-    OSGI-INF/authentication-config.xml,
+Nuxeo-Component: OSGI-INF/authentication-config.xml,
     OSGI-INF/authentication-listener-contrib.xml
 
