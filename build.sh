@@ -2,7 +2,7 @@
 
 cd plugins
 
-mvn -o -DskipTests clean install
+mvn -nsu -DskipTests clean install
 
 cd ..
 
