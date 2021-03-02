@@ -20,6 +20,11 @@ Allows to redeploy Nuxeo pods without having to re-authenticate
 
 Marketplace package used to deploy everything in image
 
+    - google-storage-2021.1.19.zip
+    - nuxeo-arender-2021.1.0.zip
+    - nuxeo-statistics-package-1.0-SNAPSHOT.zip
+    - nuxeo-web-ui-3.0.2.zip
+
 #### Docker file
 
 Build a custom Docker image integrating the plugins and some additiona packages like GCP Store and WebUI.

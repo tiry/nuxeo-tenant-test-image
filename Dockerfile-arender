@@ -1,4 +1,4 @@
-FROM docker-private.packages.nuxeo.com/nuxeo/nuxeo:2021.0
+FROM docker-private.packages.nuxeo.com/nuxeo/nuxeo:2021.1
 
 COPY --chown=nuxeo:0 packages/google-storage-*.zip /home/nuxeo/local-packages/google-storage.zip
 COPY --chown=nuxeo:0 packages/nuxeo-web-ui-*.zip /home/nuxeo/local-packages/nuxeo-web-ui.zip
