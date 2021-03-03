@@ -47,5 +47,7 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         push: false
-        file: Dockerfile-gh
+        context: .
+        file: ./Dockerfile-gh
+        build-args: CLID=${{ secrets.CLID }}
         tags: tiry/mt-test:latest        
