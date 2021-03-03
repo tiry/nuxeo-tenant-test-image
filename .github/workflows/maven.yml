@@ -27,6 +27,6 @@ jobs:
       run: mvn -DskipTests clean install -f plugins/pom.xml
       env:
         MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
-        MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_TOKEN }}
+        MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
         
         
