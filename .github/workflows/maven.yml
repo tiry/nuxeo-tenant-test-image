@@ -20,5 +20,13 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.11
+        server-id: maven-internal
+        server-username: MAVEN_USERNAME
+        server-password: MAVEN_TOKEN # env variable for token  
     - name: Build with Maven (no tests)
       run: mvn -DskipTests clean install -f plugins/pom.xml
+      env:
+        MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+        MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_TOKEN }}
+        
+        
