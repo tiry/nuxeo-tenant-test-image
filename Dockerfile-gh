@@ -1,0 +1,14 @@
+FROM docker-private.packages.nuxeo.com/nuxeo/nuxeo:2021.1
+
+
+ARG CLID
+
+COPY --chown=nuxeo:0 plugins/package/target/plugin-package*.zip /home/nuxeo/local-packages/package.zip
+
+# Work around missing support for --chown flag with COPY instruction in Kaniko
+# TODO NXP-28052: remove when fixed in Kaniko, or find a proper way
+USER root
+RUN /install-packages.sh g--clid ${CLID} google-storage nuxeo-web-ui /home/nuxeo/local-packages/package.zip
+RUN chown -R 900:0 ${NUXEO_HOME} \
+  && chmod -R g+rwX ${NUXEO_HOME}
+USER 900

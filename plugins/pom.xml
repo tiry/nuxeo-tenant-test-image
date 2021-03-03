@@ -37,7 +37,7 @@
         <artifactId>nuxeo-parent</artifactId>
         <scope>import</scope>
         <type>pom</type>
-        <version>11.4-SNAPSHOT</version>
+        <version>2021.0</version>
       </dependency>
       <dependency>
         <groupId>org.nuxeo.test</groupId>
